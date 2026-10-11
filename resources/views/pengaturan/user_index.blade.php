@@ -34,7 +34,7 @@
 
     <div class="flex items-center justify-between">
         <div>
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Data Operator &amp; Admin</h2>
+            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Data Akun Pengguna</h2>
             <p class="text-sm text-gray-500 dark:text-gray-400">Kelola akun yang bisa login ke sistem.</p>
         </div>
         <button type="button" onclick="openAddModal()"
@@ -64,6 +64,10 @@
                                 @if($user->role === 'admin')
                                     <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-brand-bg text-brand-dark dark:bg-brand-primary/20 dark:text-brand-light">
                                         <i class="fa-solid fa-user-shield"></i> Admin
+                                    </span>
+                                @elseif($user->role === 'kepala_dinas')
+                                    <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                                        <i class="fa-solid fa-user-tie"></i> Kepala Dinas
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
@@ -139,6 +143,7 @@
                         class="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary dark:focus:border-brand-light text-sm appearance-none cursor-pointer">
                         <option value="operator">Operator</option>
                         <option value="admin">Admin</option>
+                        <option value="kepala_dinas">Kepala Dinas</option>
                     </select>
                 </div>
 

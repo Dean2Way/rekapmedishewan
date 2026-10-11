@@ -28,7 +28,7 @@ class UserController extends Controller
             'nama' => 'required|string|max:100',
             'username' => 'required|string|max:100|unique:users,username',
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
-            'role' => 'required|in:admin,operator',
+            'role' => 'required|in:admin,operator,kepala_dinas',
         ], [
             'username.unique' => 'Username sudah dipakai, silakan pilih yang lain.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
@@ -60,7 +60,7 @@ class UserController extends Controller
             'nama' => 'required|string|max:100',
             'username' => 'required|string|max:100|unique:users,username,' . $id_user . ',id_user',
             'password' => ['nullable', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
-            'role' => 'required|in:admin,operator',
+            'role' => 'required|in:admin,operator,kepala_dinas',
         ], [
             'username.unique' => 'Username sudah dipakai, silakan pilih yang lain.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',

@@ -9,21 +9,35 @@
         <form method="GET" action="{{ route('rekap-laporan.rekapitulasi') }}">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penandatangan 1</label>
-                    <button type="button" id="btnTtd1"
-                        class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:border-brand-primary dark:focus:border-brand-light transition-colors text-sm text-left flex items-center gap-2 truncate">
-                        <i class="fa-solid fa-signature text-brand-primary flex-shrink-0"></i>
-                        <span id="btnTtd1Label" class="truncate">Belum diisi</span>
-                    </button>
+                    <label for="ttd1" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penandatangan 1</label>
+                    <select name="ttd1" id="ttd1" class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary dark:focus:border-brand-light transition-colors text-sm appearance-none cursor-pointer">
+                        <option value="">-- Pilih penandatangan --</option>
+                        @foreach($penandatangans as $p)
+                            <option value="{{ $p->id_penandatangan }}"
+                                data-nama="{{ $p->nama }}"
+                                data-nip="{{ $p->nip }}"
+                                data-jabatan="{{ $p->jabatan }}"
+                                {{ request('ttd1') == $p->id_penandatangan ? 'selected' : '' }}>
+                                {{ $p->nama }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penandatangan 2</label>
-                    <button type="button" id="btnTtd2"
-                        class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:border-brand-primary dark:focus:border-brand-light transition-colors text-sm text-left flex items-center gap-2 truncate">
-                        <i class="fa-solid fa-signature text-brand-primary flex-shrink-0"></i>
-                        <span id="btnTtd2Label" class="truncate">Belum diisi</span>
-                    </button>
+                    <label for="ttd2" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penandatangan 2</label>
+                    <select name="ttd2" id="ttd2" class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary dark:focus:border-brand-light transition-colors text-sm appearance-none cursor-pointer">
+                        <option value="">-- Pilih penandatangan --</option>
+                        @foreach($penandatangans as $p)
+                            <option value="{{ $p->id_penandatangan }}"
+                                data-nama="{{ $p->nama }}"
+                                data-nip="{{ $p->nip }}"
+                                data-jabatan="{{ $p->jabatan }}"
+                                {{ request('ttd2') == $p->id_penandatangan ? 'selected' : '' }}>
+                                {{ $p->nama }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="space-y-1.5">
@@ -36,15 +50,6 @@
                     </select>
                 </div>
             </div>
-
-            <!-- Hidden input, ke-submit bareng form GET -->
-            <input type="hidden" name="ttd1_nama" id="ttd1_nama" value="{{ request('ttd1_nama') }}">
-            <input type="hidden" name="ttd1_nip" id="ttd1_nip" value="{{ request('ttd1_nip') }}">
-            <input type="hidden" name="ttd1_jabatan" id="ttd1_jabatan" value="{{ request('ttd1_jabatan') }}">
-
-            <input type="hidden" name="ttd2_nama" id="ttd2_nama" value="{{ request('ttd2_nama') }}">
-            <input type="hidden" name="ttd2_nip" id="ttd2_nip" value="{{ request('ttd2_nip') }}">
-            <input type="hidden" name="ttd2_jabatan" id="ttd2_jabatan" value="{{ request('ttd2_jabatan') }}">
 
             <div class="flex flex-wrap items-center justify-end gap-3 mt-2">
                 <button type="submit"
@@ -168,79 +173,6 @@
     </div>
 </div>
 
-{{-- ====== MODAL PENANDATANGAN 1 ====== --}}
-<div id="ttd-modal-1" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 px-4 py-6">
-    <div class="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-base font-semibold text-gray-900 dark:text-white">Penandatangan 1</h3>
-            <button type="button" class="ttd-modal-close text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" data-target="1">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div class="px-6 py-5 space-y-3">
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Nama</label>
-                <input type="text" id="ttdForm1Nama" placeholder="Contoh: KH. Budi Santoso, M.Pd."
-                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">NIP <span class="normal-case text-gray-400">(opsional)</span></label>
-                <input type="text" id="ttdForm1Nip" placeholder="19xxxxxxxxxxxxxxxx"
-                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Jabatan <span class="normal-case text-gray-400">(opsional)</span></label>
-                <input type="text" id="ttdForm1Jabatan" placeholder="Contoh: Kepala Dinas Ketahanan Pangan dan Pertanian"
-                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary">
-            </div>
-        </div>
-        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-end gap-3">
-            <button type="button" class="ttd-modal-close bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium py-2.5 px-5 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600" data-target="1">
-                Batal
-            </button>
-            <button type="button" id="ttdSave1" class="bg-brand-primary hover:bg-brand-dark text-white font-medium py-2.5 px-5 rounded-xl">
-                Simpan
-            </button>
-        </div>
-    </div>
-</div>
-
-{{-- ====== MODAL PENANDATANGAN 2 ====== --}}
-<div id="ttd-modal-2" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 px-4 py-6">
-    <div class="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-base font-semibold text-gray-900 dark:text-white">Penandatangan 2</h3>
-            <button type="button" class="ttd-modal-close text-gray-500 hover:text-gray-700 dark:hover:text-gray-300" data-target="2">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div class="px-6 py-5 space-y-3">
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Nama</label>
-                <input type="text" id="ttdForm2Nama" placeholder="Contoh: drh. Siti Aminah"
-                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">NIP <span class="normal-case text-gray-400">(opsional)</span></label>
-                <input type="text" id="ttdForm2Nip" placeholder="19xxxxxxxxxxxxxxxx"
-                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Jabatan <span class="normal-case text-gray-400">(opsional)</span></label>
-                <input type="text" id="ttdForm2Jabatan" placeholder="Contoh: Kepala UPT Pusat Kesehatan Hewan"
-                    class="w-full px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-brand-primary">
-            </div>
-        </div>
-        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 flex justify-end gap-3">
-            <button type="button" class="ttd-modal-close bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium py-2.5 px-5 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600" data-target="2">
-                Batal
-            </button>
-            <button type="button" id="ttdSave2" class="bg-brand-primary hover:bg-brand-dark text-white font-medium py-2.5 px-5 rounded-xl">
-                Simpan
-            </button>
-        </div>
-    </div>
-</div>
 @endsection
 
 @push('styles')
@@ -253,72 +185,28 @@
 
 @push('scripts')
 <script>
-    // ====== PENANDATANGAN (TTD) — localStorage, tanpa DB ======
-    function loadTtd(index) {
-        try {
-            return JSON.parse(localStorage.getItem('ttd' + index) || 'null') || { nama: '', nip: '', jabatan: '' };
-        } catch (e) {
-            return { nama: '', nip: '', jabatan: '' };
-        }
-    }
-
-    function saveTtd(index, data) {
-        localStorage.setItem('ttd' + index, JSON.stringify(data));
-    }
-
-    function updateTtdButton(index) {
-        const data = loadTtd(index);
-        const label = document.getElementById('btnTtd' + index + 'Label');
-        if (label) {
-            label.textContent = 'Penandatangan ' + index + ': ' + (data.nama ? data.nama : 'Belum diisi');
-        }
-
-        const hiddenNama = document.getElementById('ttd' + index + '_nama');
-        const hiddenNip = document.getElementById('ttd' + index + '_nip');
-        const hiddenJabatan = document.getElementById('ttd' + index + '_jabatan');
-
-        // isi otomatis teko localStorage lek hidden input jik kosong
-        // (ben nilai query string e utowo hasil submit e form diutamakan)
-        if (hiddenNama && !hiddenNama.value) hiddenNama.value = data.nama || '';
-        if (hiddenNip && !hiddenNip.value) hiddenNip.value = data.nip || '';
-        if (hiddenJabatan && !hiddenJabatan.value) hiddenJabatan.value = data.jabatan || '';
-    }
-
-    function openTtdModal(index) {
-        const data = loadTtd(index);
-        document.getElementById('ttdForm' + index + 'Nama').value = data.nama || '';
-        document.getElementById('ttdForm' + index + 'Nip').value = data.nip || '';
-        document.getElementById('ttdForm' + index + 'Jabatan').value = data.jabatan || '';
-
-        const modal = document.getElementById('ttd-modal-' + index);
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    function closeTtdModal(index) {
-        const modal = document.getElementById('ttd-modal-' + index);
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-
+    // Isi parameter penandatangan pada link ekspor (Excel dan PDF)
+    // dari pilihan dropdown. Nama parameter tetap sama seperti sebelumnya.
     function refreshExportLinks() {
-        const ttd1 = loadTtd(1);
-        const ttd2 = loadTtd(2);
+        const params = {};
 
-        const params = {
-            ttd1_nama: ttd1.nama || '',
-            ttd1_nip: ttd1.nip || '',
-            ttd1_jabatan: ttd1.jabatan || '',
-            ttd2_nama: ttd2.nama || '',
-            ttd2_nip: ttd2.nip || '',
-            ttd2_jabatan: ttd2.jabatan || '',
-        };
+        [1, 2].forEach(function (i) {
+            const select = document.getElementById('ttd' + i);
+            const opt = select ? select.options[select.selectedIndex] : null;
+
+            params['ttd' + i + '_nama']    = opt ? (opt.dataset.nama    || '') : '';
+            params['ttd' + i + '_nip']     = opt ? (opt.dataset.nip     || '') : '';
+            params['ttd' + i + '_jabatan'] = opt ? (opt.dataset.jabatan || '') : '';
+        });
 
         document.querySelectorAll('.js-export-link').forEach(function (link) {
             link.target = '_blank';
             link.rel = 'noopener';
 
             const url = new URL(link.href, window.location.origin);
+            url.searchParams.delete('ttd1');
+            url.searchParams.delete('ttd2');
+
             Object.keys(params).forEach(function (key) {
                 if (params[key]) {
                     url.searchParams.set(key, params[key]);
@@ -330,59 +218,8 @@
         });
     }
 
-    //tampilkan data 
-    updateTtdButton(1);
-    updateTtdButton(2);
     refreshExportLinks();
-
-    document.getElementById('btnTtd1')?.addEventListener('click', () => openTtdModal(1));
-    document.getElementById('btnTtd2')?.addEventListener('click', () => openTtdModal(2));
-
-    document.querySelectorAll('.ttd-modal-close').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            closeTtdModal(this.dataset.target);
-        });
-    });
-
-    document.getElementById('ttdSave1')?.addEventListener('click', function () {
-        const data = {
-            nama: document.getElementById('ttdForm1Nama').value.trim(),
-            nip: document.getElementById('ttdForm1Nip').value.trim(),
-            jabatan: document.getElementById('ttdForm1Jabatan').value.trim(),
-        };
-        saveTtd(1, data);
-
-        document.getElementById('ttd1_nama').value = data.nama;
-        document.getElementById('ttd1_nip').value = data.nip;
-        document.getElementById('ttd1_jabatan').value = data.jabatan;
-
-        document.getElementById('btnTtd1Label').textContent = 'Penandatangan 1: ' + (data.nama || 'Belum diisi');
-        refreshExportLinks();
-        closeTtdModal(1);
-    });
-
-    document.getElementById('ttdSave2')?.addEventListener('click', function () {
-        const data = {
-            nama: document.getElementById('ttdForm2Nama').value.trim(),
-            nip: document.getElementById('ttdForm2Nip').value.trim(),
-            jabatan: document.getElementById('ttdForm2Jabatan').value.trim(),
-        };
-        saveTtd(2, data);
-
-        document.getElementById('ttd2_nama').value = data.nama;
-        document.getElementById('ttd2_nip').value = data.nip;
-        document.getElementById('ttd2_jabatan').value = data.jabatan;
-
-        document.getElementById('btnTtd2Label').textContent = 'Penandatangan 2: ' + (data.nama || 'Belum diisi');
-        refreshExportLinks();
-        closeTtdModal(2);
-    });
-
-    document.getElementById('ttd-modal-1')?.addEventListener('click', function (e) {
-        if (e.target === this) closeTtdModal(1);
-    });
-    document.getElementById('ttd-modal-2')?.addEventListener('click', function (e) {
-        if (e.target === this) closeTtdModal(2);
-    });
+    document.getElementById('ttd1')?.addEventListener('change', refreshExportLinks);
+    document.getElementById('ttd2')?.addEventListener('change', refreshExportLinks);
 </script>
 @endpush

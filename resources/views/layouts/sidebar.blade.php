@@ -18,18 +18,20 @@
         
         <p class="menu-header px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-4 whitespace-nowrap">Menu Utama</p>
         
-        <!-- MENU PUBLIK: Bisa diakses Admin & Operator -->
+        <!-- MENU UTAMA: Bisa diakses Admin, Operator & Kepala Dinas -->
         <a href="{{ route('dashboard') }}" 
         class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('dashboard') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}" title="Dashboard">
             <i class="fa-solid fa-chart-pie w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
             <span class="menu-text whitespace-nowrap">Dashboard</span>
         </a>
 
-        <a href="{{ route('rekam-medis.index') }}" 
-        class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('rekam-medis.*') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}">
-            <i class="fa-solid fa-laptop-medical w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
-            <span class="menu-text whitespace-nowrap">Input Rekam Medis</span>
-        </a>
+        @if (in_array(Auth::user()->role, ['admin', 'operator'], true))
+            <a href="{{ route('rekam-medis.index') }}"
+            class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('rekam-medis.*') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}">
+                <i class="fa-solid fa-laptop-medical w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
+                <span class="menu-text whitespace-nowrap">Input Rekam Medis</span>
+            </a>
+        @endif
 
         <a href="{{ route('surveilans.index') }}"
         class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('surveilans.*') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}">
@@ -82,8 +84,16 @@
                 <i class="fa-solid fa-pills w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
                 <span class="menu-text whitespace-nowrap">Kelola Obat</span>
             </a>
+        @endif
 
+        @if (in_array(Auth::user()->role, ['admin', 'kepala_dinas'], true))
             <p class="menu-header px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-6 whitespace-nowrap">Laporan</p>
+
+            <a href="{{ route('penandatangan.index') }}"
+            class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('penandatangan.*') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}">
+                <i class="fa-solid fa-signature w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
+                <span class="menu-text whitespace-nowrap">Kelola Penandatangan</span>
+            </a>
 
             <a href="{{ route('rekap-laporan.index') }}" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('rekap-laporan.index') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}">
                 <i class="fa-solid fa-file-contract w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
@@ -94,7 +104,9 @@
                 <i class="fa-solid fa-table-list w-5 text-center flex-shrink-0 group-hover:text-brand-primary dark:group-hover:text-brand-light transition-colors"></i>
                 <span class="menu-text whitespace-nowrap">Rekapitulasi</span>
             </a>
+        @endif
 
+        @if (Auth::user()->role === 'admin')
             <p class="menu-header px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-6 whitespace-nowrap">Pengaturan</p>
 
             <a href="{{ route('user.index') }}" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('user.*') ? 'bg-brand-primary/10 dark:bg-brand-primary/20 text-brand-primary dark:text-brand-light font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-white' }}">
@@ -134,7 +146,7 @@
         </div>
         <div class="profile-info flex-1 min-w-0">
             <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ Auth::user()->nama ?? 'Admin Klinik' }}</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->role ?? 'Administrator' }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->role === 'kepala_dinas' ? 'Kepala Dinas' : ucfirst(Auth::user()->role ?? 'admin') }}</p>
         </div>
     </div>
 </aside>

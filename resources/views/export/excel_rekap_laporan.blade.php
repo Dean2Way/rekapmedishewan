@@ -5,37 +5,61 @@
 @endphp
 <table style="border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 11px;">
     <tr>
-        <td colspan="20" style="font-weight:bold; font-size:16px; text-align:center;">REKAPITULASI SETORAN RETRIBUSI TAHUN {{ $reportYear }}</td>
+        <td colspan="19" style="font-family:'Times New Roman',serif; font-size:12px; text-align:center; border:none;">PEMERINTAH KOTA KEDIRI</td>
     </tr>
     <tr>
-        <td colspan="20" style="font-weight:bold; text-align:center;">PERIODE {{ request('start_date') ? \Carbon\Carbon::parse(request('start_date'))->format('d F Y') : '01 JANUARI' }} SAMPAI DENGAN {{ request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->format('d F Y') : '31 DESEMBER' }}</td>
+        <td colspan="19" style="font-family:'Times New Roman',serif; font-size:16px; font-weight:bold; text-align:center; border:none;">DINAS KETAHANAN PANGAN DAN PERTANIAN</td>
     </tr>
     <tr>
-        <td colspan="20" style="font-weight:bold; text-align:center;">UPT PUSAT KESEHATAN HEWAN</td>
+        <td colspan="19" style="font-family:'Times New Roman',serif; font-size:10px; text-align:center; border:none;">Jl. Brigjend. Pol. Imam Bachri H.P No.98A Kota Kediri</td>
     </tr>
     <tr>
-        <td colspan="20" style="font-weight:bold; text-align:center;">DINAS KETAHANAN PANGAN DAN PERTANIAN KOTA KEDIRI</td>
+        <td colspan="19" style="font-family:'Times New Roman',serif; font-size:10px; text-align:center; border:none;">surel : dkppkotakediri@kedirikota.go.id &nbsp;&nbsp; laman : dkpp.kedirikota.go.id</td>
     </tr>
     <tr>
-        <td colspan="20"></td>
+        <td colspan="19" style="border-bottom:3px solid #000000;"></td>
     </tr>
     <tr>
-        <td colspan="20" style="font-weight:bold;">Filter :</td>
+        <td colspan="19" style="border-top:1px solid #000000;"></td>
+    </tr>
+    <tr>
+        <td colspan="19" style="font-weight:bold; font-size:14px; text-align:center;">LAPORAN REKAP MEDIS</td>
+    </tr>
+    <tr>
+        <td colspan="19"></td>
+    </tr>
+    <tr>
+        <td colspan="19" style="font-weight:bold; font-size:16px; text-align:center;">REKAPITULASI SETORAN RETRIBUSI TAHUN {{ $reportYear }}</td>
+    </tr>
+    <tr>
+        <td colspan="19" style="font-weight:bold; text-align:center;">PERIODE {{ request('start_date') ? \Carbon\Carbon::parse(request('start_date'))->format('d F Y') : '01 JANUARI' }} SAMPAI DENGAN {{ request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->format('d F Y') : '31 DESEMBER' }}</td>
+    </tr>
+    <tr>
+        <td colspan="19" style="font-weight:bold; text-align:center;">UPT PUSAT KESEHATAN HEWAN</td>
+    </tr>
+    <tr>
+        <td colspan="19" style="font-weight:bold; text-align:center;">DINAS KETAHANAN PANGAN DAN PERTANIAN KOTA KEDIRI</td>
+    </tr>
+    <tr>
+        <td colspan="19"></td>
+    </tr>
+    <tr>
+        <td colspan="19" style="font-weight:bold;">Filter :</td>
     </tr>
     @if(count($filterInfo) > 0)
         @foreach($filterInfo as $label => $value)
             <tr>
                 <td style="font-weight:bold;">{{ $label }}</td>
-                <td colspan="19">{{ $value }}</td>
+                <td colspan="18">{{ $value }}</td>
             </tr>
         @endforeach
     @else
         <tr>
-            <td colspan="20">Tidak ada filter (menampilkan seluruh data)</td>
+            <td colspan="19">Tidak ada filter (menampilkan seluruh data)</td>
         </tr>
     @endif
     <tr>
-        <td colspan="20"></td>
+        <td colspan="19"></td>
     </tr>
 
     {{-- ====== HEADER TABEL ====== --}}

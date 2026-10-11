@@ -14,6 +14,7 @@ use App\Http\Controllers\AnamnesaController;
 use App\Http\Controllers\SurveilansController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\Admin\ApiTokenController;
+use App\Http\Controllers\PenandatanganController;
 
 Route::redirect('/', '/login');
 // Route untuk Halaman Auth
@@ -29,13 +30,15 @@ Route::middleware('auth','nocache')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Modul Transaksi (Akses Operator & Admin)
-    Route::get('/rekam-medis/search', [RekamMedisController::class, 'search'])->name('rekam-medis.search');
     Route::get('/surveilans', [SurveilansController::class, 'index'])->name('surveilans.index');
-    // Standar resource controller
-    Route::resource('rekam-medis', RekamMedisController::class);
 
-    // HANYA BISA DIAKSES ADMIN ---
+    // Modul transaksi hanya untuk operator dan admin
+    Route::middleware('role:admin,operator')->group(function () {
+        Route::get('/rekam-medis/search', [RekamMedisController::class, 'search'])->name('rekam-medis.search');
+        Route::resource('rekam-medis', RekamMedisController::class);
+    });
+
+    // Akses khusus admin
     Route::middleware('role:admin')->group(function () {
         Route::resource('user', UserController::class)
             ->parameters(['user' => 'id_user'])
@@ -65,15 +68,21 @@ Route::middleware('auth','nocache')->group(function () {
         Route::resource('obat', ObatController::class)
             ->except(['show', 'create', 'edit']);
 
+        Route::get('/api-tokens', [ApiTokenController::class, 'index'])->name('admin.api-tokens.index');
+        Route::post('/api-tokens', [ApiTokenController::class, 'store'])->name('admin.api-tokens.store');
+        Route::delete('/api-tokens/{id}', [ApiTokenController::class, 'destroy'])->name('admin.api-tokens.destroy');
+    });
+
+    // Fitur yang dapat diakses admin dan kepala dinas
+    Route::middleware('role:admin,kepala_dinas')->group(function () {
+        Route::resource('penandatangan', PenandatanganController::class)
+            ->except(['show', 'create', 'edit']);
+
         Route::get('/rekap-laporan', [RekamMedisController::class, 'rekapLaporan'])->name('rekap-laporan.index');
         Route::get('/rekap-laporan/rekapitulasi', [RekamMedisController::class, 'rekapitulasi'])->name('rekap-laporan.rekapitulasi');
         Route::get('/rekap-laporan/export', [RekamMedisController::class, 'exportRekapLaporan'])->name('rekap-laporan.export');
         Route::get('/rekap-laporan/export-view', [RekamMedisController::class, 'exportRekapLaporanView'])->name('rekap-laporan.export-view');
         Route::get('/rekap-laporan/pdf', [RekamMedisController::class, 'cetakRekapLaporan'])->name('rekap-laporan.pdf');
         Route::get('/rekap-laporan/pdf2', [RekamMedisController::class, 'cetakRekapLaporan2'])->name('rekap-laporan.pdf2');
-
-        Route::get('/api-tokens', [ApiTokenController::class, 'index'])->name('admin.api-tokens.index');
-        Route::post('/api-tokens', [ApiTokenController::class, 'store'])->name('admin.api-tokens.store');
-        Route::delete('/api-tokens/{id}', [ApiTokenController::class, 'destroy'])->name('admin.api-tokens.destroy');
     });
 });

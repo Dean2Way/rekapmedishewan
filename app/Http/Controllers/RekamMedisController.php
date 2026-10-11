@@ -14,6 +14,7 @@ use App\Models\JenisHewan;
 use App\Models\Diagnosa;
 use App\Models\Anamnesa;
 use App\Models\Obat;
+use App\Models\Penandatangan;
 use App\Exports\RekapLaporanExport;
 use App\Exports\RekapLaporanExport2;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -533,6 +534,7 @@ class RekamMedisController extends Controller
             'totalRetribusi' => $exportData['totalRetribusi'],
             'totalHewanUnik' => $exportData['totalHewanUnik'],
             'years' => $years,
+            'penandatangans' => Penandatangan::orderBy('nama')->get(),
         ]);
     }
     

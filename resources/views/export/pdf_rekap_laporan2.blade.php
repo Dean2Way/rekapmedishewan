@@ -24,27 +24,54 @@
         .no-border {
             border: none;
         }
+        .header-table {
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        .header-table td {
+            border: none;
+            padding: 0;
+            vertical-align: middle;
+        }
+        .kop-instansi {
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
 @php
+    $logoPath = public_path('img/logo kota kediri.png');
+    $logoData = is_file($logoPath) ? base64_encode(file_get_contents($logoPath)) : null;
     $selectedYear = request('year') ?: request('tahun');
     $reportYear = $selectedYear
         ?: (request('start_date') ? \Carbon\Carbon::parse(request('start_date'))->year : (request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->year : date('Y')));
 @endphp
+<table class="header-table">
+    <tr>
+        <td width="15%" style="text-align:center;">
+            @if($logoData)
+                <img src="data:image/png;base64,{{ $logoData }}" width="80" alt="Logo Kota Kediri">
+            @endif
+        </td>
+        <td class="kop-instansi">
+            <div style="font-size:15px; letter-spacing:0.5px;">PEMERINTAH KOTA KEDIRI</div>
+            <div style="font-size:21px; font-weight:bold; margin-top:2px;">DINAS KETAHANAN PANGAN DAN PERTANIAN</div>
+            <div style="font-size:11px; margin-top:4px;">Jl. Brigjend. Pol. Imam Bachri H.P No.98A Kota Kediri</div>
+            <div style="font-size:11px; margin-top:1px;">surel : dkppkotakediri@kedirikota.go.id &nbsp;&nbsp; laman : dkpp.kedirikota.go.id</div>
+        </td>
+    </tr>
+</table>
+<div style="border-top:3px solid black; margin-top:8px;"></div>
+<div style="border-top:1px solid black; margin-top:1px; margin-bottom:6px;"></div>
+
 <table>
     <tr>
         <td colspan="20" class="no-border" style="font-weight:bold; font-size:13px; text-align:center;">REKAPITULASI SETORAN RETRIBUSI TAHUN {{ $reportYear }}</td>
     </tr>
     <tr>
         <td colspan="20" class="no-border" style="font-weight:bold; text-align:center;">PERIODE {{ request('start_date') ? \Carbon\Carbon::parse(request('start_date'))->format('d F Y') : '01 JANUARI' }} SAMPAI DENGAN {{ request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->format('d F Y') : '31 DESEMBER' }}</td>
-    </tr>
-    <tr>
-        <td colspan="20" class="no-border" style="font-weight:bold; text-align:center;">UPT PUSAT KESEHATAN HEWAN</td>
-    </tr>
-    <tr>
-        <td colspan="20" class="no-border" style="font-weight:bold; text-align:center;">DINAS KETAHANAN PANGAN DAN PERTANIAN KOTA KEDIRI</td>
     </tr>
     <tr>
         <td colspan="20" class="no-border"></td>
